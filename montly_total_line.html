@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monthly Graph</title>
+
+</head>
+
+<style>
+    .graph {
+        height: 35%;
+        width: 70%;
+        margin: auto;
+    }
+</style>
+
+
+<body>
+
+    <h1 style="text-align: center;">Monthly Total Years on Year</h1>
+
+    <div class="graph">
+        <canvas id="myChart" width="876" height="438"></canvas>
+    </div>
+
+
+
+</body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js"></script>
+
+<script src="./css_colors.js"></script>
+
+<script>
+    const date = new Date();
+    let currentYear = date.getFullYear();
+
+    const yearsArray = () => {
+
+        const startYear = 2010;
+        let yearsArr = [];
+        let yearToday = currentYear;
+
+        yearsArr.push(yearToday)
+
+        while (startYear < yearToday) {
+            yearToday += -1;
+            yearsArr.push(yearToday)
+        }
+
+        return yearsArr;
+    }
+
+
+    let monthTotal = [
+        //2021 - starts with Jan
+        // [27413, 36195, 35891, 40765, 23632, 32490, 13865, 0, 0, 0, 0, 0],
+
+        [27413, 36726, 36464, 42927, 37084, 32541, 15004, 3008, 1144, 222, 0, 0],
+
+
+        //2020
+        [19949, 21694, 27160, 23925, 29903, 37129, 21863, 8801, 3397, 3045, 2751, 18630],
+        [21766, 25806, 17125, 17098, 11510, 11669, 12827, 10, 0, 1511, 10401, 16345],
+        [42252, 61203, 66160, 56841, 67610, 59042, 32591, 7230, 0, 8477, 27237, 26357],
+        [48949, 51349, 41225, 39095, 61480, 38418, 40751, 18242, 6895, 19612, 26911, 44997],
+        [26892, 39733, 40153, 48681, 47763, 31195, 15555, 320, 972, 19518, 36764, 40460],
+        [17432, 59458, 49554, 67701, 65770, 43999, 40778, 7615, 5517, 9375, 15028, 23137],
+        [33160, 49657, 47801, 62706, 79425, 79846, 65897, 26124, 2440, 6940, 13198, 2299],
+        [36600, 44005, 43391, 45344, 35765, 25866, 20594, 1524, 0, 9579, 51377, 6438],
+        [66096, 81304, 84636, 91742, 94814, 52107, 10434, 1548, 0, 2595, 26764, 22536],
+        [19653, 38867, 47570, 39419, 48870, 47568, 19488, 2072, 0, 32434, 43649, 59789],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5422, 9805]
+
+
+    ]
+
+    let colorArray = ["#CC0000", "#00CCFF", "#000000", "#339966", "#3399FF", "#FFCC33", "#909090", "#CC6600", "#0033FF"]
+
+    const getDatasetObject = () => {
+        let datasetArray = []
+
+        for (let i = 0; i < yearsArray().length; i++) {
+            datasetArray.push({
+                label: yearsArray()[i],
+                data: monthTotal[i],
+                borderColor: colorArray[i],
+                lineTension: 0.4,
+
+            })
+        }
+
+        console.log(datasetArray)
+        return datasetArray;
+    }
+
+
+    // graph
+    var ctx = document.getElementById('myChart');
+    let myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December',],
+            datasets: getDatasetObject(),
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: false,
+                    text: `Monthly Meters Year on Year (Africa & Australia)`
+                }
+            }
+
+        },
+    });
+
+</script>
+
+</html>

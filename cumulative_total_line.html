@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cumulative Graph</title>
+
+</head>
+
+<style>
+    .graph {
+        height: 35%;
+        width: 70%;
+        margin: auto;
+    }
+</style>
+
+
+<body>
+
+    <h1 style="text-align:center;">Cumulative Total All Years vrs 2021 </h1>
+
+    <div class="graph container-fluid">
+        <canvas id="myChart" width="876" height="438"></canvas>
+    </div>
+
+
+
+</body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js"></script>
+
+<script src="./css_colors.js"></script>
+
+<script>
+    const date = new Date();
+    let currentYear = date.getFullYear();
+
+    const yearsArray = () => {
+
+        const startYear = 2010;
+        let yearsArr = [];
+        let yearToday = currentYear;
+
+        yearsArr.push(yearToday)
+
+        while (startYear < yearToday) {
+            yearToday += -1;
+            yearsArr.push(yearToday)
+        }
+
+        return yearsArr;
+    }
+
+
+    let cumulativeTotal = [
+        //2021  - -starts with January
+        //jan     feb    mar     apr     may     jun     jul     aug     sep     oct     nov     dec
+        [27413, 64139, 100603, 143530, 180614, 213155, 228159, 231167, 232311, 232533, 232533, 232533],
+
+
+        //2020
+        [19949, 41643, 68803, 92728, 122631, 159760, 181623, 190424, 193821, 196866, 199617, 218247],
+        [21766, 47572, 64697, 81795, 93305, 104974, 117801, 117811, 117811, 119322, 129723, 146068],
+        [42252, 103455, 169615, 226456, 294066, 353108, 385699, 392929, 392929, 401406, 428643, 455000],
+        [48949, 100298, 141523, 180618, 242098, 280516, 321267, 339509, 346404, 366016, 392927, 437924],
+        [26892, 66625, 106778, 155459, 203222, 234417, 249972, 250292, 251264, 270782, 307546, 348006],
+        [17432, 76890, 126444, 194145, 259915, 303914, 344692, 352307, 357824, 367199, 382227, 405364],
+        [33160, 82817, 130618, 193324, 272749, 352595, 418492, 444616, 447056, 453996, 467194, 469493],
+        [36600, 80605, 123996, 169340, 205105, 230971, 251565, 253089, 253089, 262668, 314045, 320483],
+        [66096, 147400, 232036, 323778, 418592, 470699, 481133, 482681, 482681, 485276, 512040, 534576],
+        [19653, 58520, 106090, 145509, 194379, 241947, 261435, 263507, 263507, 295941, 339590, 399379],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5422, 15227]
+
+
+    ]
+
+    let colorArray = ["#CC0000", "#00CCFF", "#000000", "#339966", "#3399FF", "#FFCC33", "#909090", "#CC6600", "#0033FF"]
+
+    const getDatasetObject = () => {
+        let datasetArray = []
+
+        for (let i = 0; i < yearsArray().length; i++) {
+            datasetArray.push({
+                label: yearsArray()[i],
+                data: cumulativeTotal[i],
+                borderColor: colorArray[i],
+                lineTension: 0.4,
+
+            })
+        }
+
+        console.log(datasetArray)
+        return datasetArray;
+    }
+
+
+    getDatasetObject()
+
+
+    // graph
+    var ctx = document.getElementById('myChart');
+    let myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December',],
+            datasets: getDatasetObject(),
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: false,
+                    text: `Cumulative Meters Year on Year  Versus ${currentYear} Projection`
+                }
+            }
+        },
+    });
+
+</script>
+
+</html>
